@@ -1,7 +1,7 @@
 import os
 import sqlite3
 
-from typing import List
+from typing import List, Tuple
 from dataclasses import dataclass, field
 
 
@@ -41,58 +41,51 @@ class Pokemon:
 
     @classmethod
     def get_pokemons(cls) -> List:
-        con = sqlite3.connect(os.getenv('DATABASE_NAME', 'pokemon.db'))
-        con.row_factory = sqlite3.Row
-
-        cur = con.cursor()
-        cur.execute("SELECT * FROM pokemons")
-
-        records = cur.fetchall()
-        pokemons = [cls(**record) for record in records]
-        con.close()
-
-        return pokemons
+        return cls._get_by_query("SELECT * FROM pokemons")
 
     @classmethod
     def get_pokemon_by_id(cls, pokemon_id: int):
-        con = sqlite3.connect(os.getenv('DATABASE_NAME', 'pokemon.db'))
-        con.row_factory = sqlite3.Row
-
-        cursor = con.cursor()
-        cursor.execute("SELECT * FROM pokemons WHERE id = ?", (pokemon_id,))
-
-        record = cursor.fetchone()
-
-        pokemon = cls(** record)
-        con.close()
-
-        return pokemon
+        return cls._get_by_attribute(
+            "SELECT * FROM pokemons WHERE id = ?",
+            (pokemon_id,)
+        )
 
     @classmethod
     def get_pokemon_by_name(cls, name: str):
+        return cls._get_by_attribute(
+            "SELECT * FROM pokemons WHERE name = ?",
+            (name,)
+        )
+
+    @classmethod
+    def order_pokemons_by_attack(cls):
+        return cls._get_by_query("SELECT * FROM pokemons ORDER BY attack ASC;")
+
+    @classmethod
+    def _get_by_attribute(cls, sql_query: str, query_values: Tuple):
         con = sqlite3.connect(os.getenv('DATABASE_NAME', 'pokemon.db'))
         con.row_factory = sqlite3.Row
 
         cursor = con.cursor()
-        cursor.execute("SELECT * FROM pokemons WHERE name = ?", (name,))
+        cursor.execute(sql_query, query_values)
 
         record = cursor.fetchone()
 
-        pokemon = cls(** record)
+        data = cls(** record)
         con.close()
 
-        return pokemon
+        return data
 
     @classmethod
-    def order_pokemon_by_attack(cls):
+    def _get_by_query(cls, sql_query: str):
         con = sqlite3.connect(os.getenv('DATABASE_NAME', 'pokemon.db'))
         con.row_factory = sqlite3.Row
 
         cur = con.cursor()
-        cur.execute("SELECT * FROM pokemons ORDER BY attack ASC;")
+        cur.execute(sql_query)
 
         records = cur.fetchall()
-        pokemons = [cls(**record) for record in records]
+        data = [cls(**record) for record in records]
         con.close()
 
-        return pokemons
+        return data
