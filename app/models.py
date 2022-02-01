@@ -21,6 +21,9 @@ class Pokemon:
     legendary: int
     id: int = field(default=None)
 
+    def to_dict(self):
+        return self.__dict__
+
     def save(self) -> None:
         with sqlite3.connect(os.getenv('DATABASE_NAME', 'pokemon.db')) as con:
             cursor = con.cursor()
@@ -51,7 +54,7 @@ class Pokemon:
         return pokemons
 
     @classmethod
-    def get_pokemon_by_id(cls, pokemon_id: str):
+    def get_pokemon_by_id(cls, pokemon_id: int):
         con = sqlite3.connect(os.getenv('DATABASE_NAME', 'pokemon.db'))
         con.row_factory = sqlite3.Row
 
@@ -60,7 +63,7 @@ class Pokemon:
 
         record = cursor.fetchone()
 
-        pokemon = record
+        pokemon = cls(** record)
         con.close()
 
         return pokemon
@@ -75,7 +78,21 @@ class Pokemon:
 
         record = cursor.fetchone()
 
-        pokemon = record
+        pokemon = cls(** record)
         con.close()
 
         return pokemon
+
+    @classmethod
+    def order_pokemon_by_attack(cls):
+        con = sqlite3.connect(os.getenv('DATABASE_NAME', 'pokemon.db'))
+        con.row_factory = sqlite3.Row
+
+        cur = con.cursor()
+        cur.execute("SELECT * FROM pokemons ORDER BY attack ASC;")
+
+        records = cur.fetchall()
+        pokemons = [cls(**record) for record in records]
+        con.close()
+
+        return pokemons
