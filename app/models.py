@@ -58,8 +58,12 @@ class Pokemon:
         )
 
     @classmethod
-    def order_pokemons_by_attack(cls):
+    def order_asc_pokemons_by_attack(cls):
         return cls._get_by_query("SELECT * FROM pokemons ORDER BY attack ASC;")
+
+    @classmethod
+    def order_desc_pokemons_by_attack(cls):
+        return cls._get_by_query("SELECT * FROM pokemons ORDER BY attack DESC;")
 
     @classmethod
     def _get_by_attribute(cls, sql_query: str, query_values: Tuple):
@@ -70,6 +74,9 @@ class Pokemon:
         cursor.execute(sql_query, query_values)
 
         record = cursor.fetchone()
+
+        if record is None:
+            return None
 
         data = cls(** record)
         con.close()
