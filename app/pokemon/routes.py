@@ -8,6 +8,44 @@ from app.pokemon import services as pokemon_services
 
 @pokemons_blueprint.route('/pokemons')
 def pokemons():
+    """Return list of pokemons and filter and sort pokemon.
+    ---
+    parameters:
+      - name: name
+        in: query
+        type: string
+        required: false
+        default: Bulbasaur
+        description: Get a pokemon for a given name
+
+      - name: sort_by
+        in: query
+        type: string
+        required: false
+        enum: ['attack']
+        default: all
+        description: sort a pokemon by attack
+      - name: order_by
+        in: query
+        type: string
+        enum: ['desc', 'asc', '']
+        required: false
+        default: all
+        description: Order by
+    definitions:
+      Pokemon:
+        type: object
+        properties:
+          data:
+            type: array
+            items:
+              $ref: '#/definitions/Pokemon'
+    responses:
+      200:
+        description: A list of pokemons (may be filtered by name)
+        schema:
+          $ref: '#/definitions/Pokemon'
+    """
     name = request.args.get('name', None)
     sort_by = request.args.get('sort_by', None)
     order_by = request.args.get('order_by', None)
