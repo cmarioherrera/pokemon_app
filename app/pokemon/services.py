@@ -32,8 +32,17 @@ class GetPokemonByIdQuery():
         return pokemon
 
 
-class OrderPokemonByAttackQuery():
+class OrderAscPokemonByAttackQuery():
+
     def execute(self) -> List[Pokemon]:
-        pokemons = Pokemon.order_pokemons_by_attack()
+        pokemons = Pokemon.order_asc_pokemons_by_attack()
+
+        return pokemons
+
+
+class OrderDescPokemonByAttackQuery():
+
+    def execute(self) -> List[Pokemon]:
+        pokemons = Pokemon.order_desc_pokemons_by_attack()
 
         return pokemons
