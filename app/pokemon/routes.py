@@ -1,12 +1,14 @@
 
 from flask import request
 from . import pokemons_blueprint
+from flask_jwt_extended import jwt_required
 
-from app.pokemon.response import response, not_found
+from app.response import response, not_found
 from app.pokemon import services as pokemon_services
 
 
 @pokemons_blueprint.route('/pokemons')
+@jwt_required()
 def pokemons():
     """Return list of pokemons and filter and sort pokemon.
     ---
@@ -40,6 +42,8 @@ def pokemons():
             type: array
             items:
               $ref: '#/definitions/Pokemon'
+    security:
+      - Bearer: []
     responses:
       200:
         description: A list of pokemons (may be filtered by name)
