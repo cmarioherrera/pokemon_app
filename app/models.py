@@ -96,3 +96,13 @@ class Pokemon:
         con.close()
 
         return data
+
+
+@dataclass
+class User:
+    id: str
+    username: str
+    password: str
+
+    def __str__(self) -> str:
+        return self.id
