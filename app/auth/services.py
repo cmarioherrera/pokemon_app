@@ -27,8 +27,3 @@ class AuthServices:
         user = users[username]
         if user and safe_str_cmp(user.password.encode('utf-8'), password.encode('utf-8')):
             return user
-
-    @classmethod
-    def identity(cls, payload):
-        user_id = payload['identity']
-        return cls.get_user_ids.get(user_id, None)
