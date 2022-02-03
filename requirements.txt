@@ -3,6 +3,7 @@ click==8.0.3
 flake8==4.0.1
 flasgger==0.9.5
 Flask==2.0.2
+Flask-JWT-Extended==4.3.1
 itsdangerous==2.0.1
 Jinja2==3.0.3
 jsonschema==4.4.0
@@ -11,6 +12,7 @@ mccabe==0.6.1
 mistune==2.0.2
 pycodestyle==2.8.0
 pyflakes==2.4.0
+PyJWT==2.3.0
 pyrsistent==0.18.1
 PyYAML==6.0
 six==1.16.0
