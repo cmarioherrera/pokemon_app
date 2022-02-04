@@ -6,8 +6,8 @@ from app.models import User
 
 
 users = [
-    User(1, 'user1', 'password'),
-    User(2, 'user2', 'password')
+    User(1, 'user1', 'secret'),
+    User(2, 'user2', 'secret2')
 ]
 
 
