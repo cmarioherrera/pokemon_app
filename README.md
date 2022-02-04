@@ -53,12 +53,18 @@ Ejecutar servidor de desarrollo.
 (venv) $ flask run
 ```
 
-# Documentación con Swagger y openapi.
+# Documentación con Swagger y recursos.
 
-Ingresar a 'http://localhost:5000/apidocs/' donde podemos probar el endpoints de api/v1/pokemons .
+Ingresar a 'http://localhost:5000/' donde tenemos los siquientes endpoints:
 
-Con el endpoint /api/v1/login generamos un token de autenticación con las crecendiales username: "user1" y password: "secret1", copiamos el valor de "Bearer {token}" en vista de Authorize. Luego podemos hacer el endpoint /api/v1/pokemons con las diferentes opciones que nos Swagger UI.
+* Documentación  http://localhost:5000/apidocs
+* Autenticación http://localhost:5000/api/v1/login
+* Recurso de pokemon http://localhost:5000/api/v1/pokemons
+
+
+Con el endpoint /api/v1/login generamos un token de autenticación con las crecendiales username: "user1" y password: "secret1", copiamos la respuesta ("Bearer {token}") en la vista Authorize, luego podemos a la vista del endpoint /api/v1/pokemons y hacer peticiones con las diferentes opciones.
 
 
 # Ambiente de producción en AWS.
 
+Ingresar a "http://18.216.187.220/apidocs/" donde tenemos acceso a los diferentes endpoint mencionados.
